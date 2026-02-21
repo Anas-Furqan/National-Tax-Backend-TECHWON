@@ -24,7 +24,6 @@ const newsletterRoutes = require('./routes/newsletter');
 const app = express();
 
 // Body parser
-app.use(express.json());
 
 // Enable CORS
 app.use(
@@ -47,6 +46,7 @@ app.use(
 })
 );
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Mount routers
 app.use('/api/auth', authRoutes);
