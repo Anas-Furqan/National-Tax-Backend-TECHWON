@@ -1,11 +1,16 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
-// Load env vars
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
+
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET.trim() === '') {
+  console.error('FATAL: JWT_SECRET is missing or empty in .env. Add: JWT_SECRET=your-secret-key');
+  process.exit(1);
+}
 
 // Connect to database
 connectDB();
