@@ -20,7 +20,6 @@ const app = express();
 
 // Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS
 app.use(
@@ -30,19 +29,20 @@ app.use(
         .split(',')
         .map((entry) => entry.trim())
         .filter(Boolean);
-
-      if (allowedOrigins.includes('*') || !origin) {
-        callback(null, true);
-      } else if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
+        
+        if (allowedOrigins.includes('*') || !origin) {
+            callback(null, true);
+        } else if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
     },
     credentials: true,
-  })
+})
 );
 
+app.use(express.urlencoded({ extended: true }));
 // Mount routers
 app.use('/api/auth', authRoutes);
 app.use('/api/blogs', blogRoutes);
