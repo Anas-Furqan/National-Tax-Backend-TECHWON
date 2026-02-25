@@ -28,11 +28,23 @@ const blogStorage = new CloudinaryStorage({
   },
 });
 
+// Storage for consultant profile images
+const consultantStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'consultant-images',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [{ width: 400, height: 400, crop: 'fill', gravity: 'face' }],
+  },
+});
+
 const uploadNotice = multer({ storage: noticeStorage });
 const uploadBlogImage = multer({ storage: blogStorage });
+const uploadConsultantImage = multer({ storage: consultantStorage });
 
 module.exports = {
   cloudinary,
   uploadNotice,
   uploadBlogImage,
+  uploadConsultantImage,
 };

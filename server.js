@@ -20,6 +20,7 @@ const authRoutes = require('./routes/auth');
 const blogRoutes = require('./routes/blogs');
 const consultationRoutes = require('./routes/consultations');
 const newsletterRoutes = require('./routes/newsletter');
+const consultantRoutes = require('./routes/consultants');
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/consultations', consultationRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/consultants', consultantRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
