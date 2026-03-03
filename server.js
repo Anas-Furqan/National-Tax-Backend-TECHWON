@@ -22,6 +22,7 @@ const consultationRoutes = require('./routes/consultations');
 const newsletterRoutes = require('./routes/newsletter');
 const consultantRoutes = require('./routes/consultants');
 const socialLinksRoutes = require('./routes/socialLinks');
+const newsRoutes = require('./routes/news');
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use('/api/consultations', consultationRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/consultants', consultantRoutes);
 app.use('/api/social-links', socialLinksRoutes);
+app.use('/api/news', newsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
