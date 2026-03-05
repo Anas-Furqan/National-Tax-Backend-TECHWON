@@ -46,6 +46,7 @@ const blogSchema = new mongoose.Schema(
         'SECP',
         'Trademark',
         'WEBOC',
+        'NTN Registration',
         'General',
       ],
       default: 'General',

@@ -25,6 +25,10 @@ const newsSchema = new mongoose.Schema(
       enum: ['circular', 'notification', 'news', 'update', 'general'],
       default: 'general',
     },
+    publishDate: {
+      type: Date,
+      default: Date.now,
+    },
     isPublished: {
       type: Boolean,
       default: true,

@@ -50,7 +50,7 @@ exports.getNews = async (req, res, next) => {
     const total = await News.countDocuments(query);
     const news = await News.find(query)
       .populate('author', 'name')
-      .sort({ createdAt: -1 })
+      .sort({ publishDate: -1 })
       .skip(startIndex)
       .limit(limit);
 
@@ -82,7 +82,7 @@ exports.getAllNews = async (req, res, next) => {
     const total = await News.countDocuments();
     const news = await News.find()
       .populate('author', 'name')
-      .sort({ createdAt: -1 })
+      .sort({ publishDate: -1 })
       .skip(startIndex)
       .limit(limit);
 
@@ -130,7 +130,7 @@ exports.getSingleNews = async (req, res, next) => {
 // @access  Private/Admin
 exports.createNews = async (req, res, next) => {
   try {
-    const { title, description, category, isPublished } = req.body;
+    const { title, description, category, isPublished, publishDate } = req.body;
 
     if (!req.file) {
       return res.status(400).json({
@@ -144,6 +144,7 @@ exports.createNews = async (req, res, next) => {
       description,
       category: category || 'general',
       isPublished: isPublished !== 'false',
+      publishDate: publishDate || new Date(),
       pdfUrl: req.file.path,
       pdfPublicId: req.file.filename,
       author: req.user._id,
@@ -171,7 +172,7 @@ exports.createNews = async (req, res, next) => {
 // @access  Private/Admin
 exports.updateNews = async (req, res, next) => {
   try {
-    const { title, description, category, isPublished } = req.body;
+    const { title, description, category, isPublished, publishDate } = req.body;
 
     let news = await News.findById(req.params.id);
 
@@ -187,6 +188,9 @@ exports.updateNews = async (req, res, next) => {
     news.description = description !== undefined ? description : news.description;
     news.category = category || news.category;
     news.isPublished = isPublished !== undefined ? isPublished !== 'false' : news.isPublished;
+    if (publishDate) {
+      news.publishDate = publishDate;
+    }
 
     // If new PDF uploaded, delete old one and update
     if (req.file) {
