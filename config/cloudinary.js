@@ -15,6 +15,7 @@ const noticeStorage = new CloudinaryStorage({
     folder: 'tax-notices',
     allowed_formats: ['pdf', 'jpg', 'jpeg', 'png'],
     resource_type: 'auto',
+    access_mode: 'public',
   },
 });
 
