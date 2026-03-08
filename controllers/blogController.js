@@ -35,6 +35,7 @@ exports.getBlogs = async (req, res, next) => {
     const total = await Blog.countDocuments(query);
     const blogs = await Blog.find(query)
       .populate('author', 'name avatar')
+      .populate('category', 'name slug')
       .sort({ publishedAt: -1, createdAt: -1 })
       .skip(startIndex)
       .limit(limit)
@@ -61,10 +62,9 @@ exports.getBlogs = async (req, res, next) => {
 // @access  Public
 exports.getBlog = async (req, res, next) => {
   try {
-    const blog = await Blog.findOne({ slug: req.params.slug }).populate(
-      'author',
-      'name avatar'
-    );
+    const blog = await Blog.findOne({ slug: req.params.slug })
+      .populate('author', 'name avatar')
+      .populate('category', 'name slug');
 
     if (!blog) {
       return res.status(404).json({
@@ -91,10 +91,9 @@ exports.getBlog = async (req, res, next) => {
 // @access  Private
 exports.getBlogById = async (req, res, next) => {
   try {
-    const blog = await Blog.findById(req.params.id).populate(
-      'author',
-      'name avatar'
-    );
+    const blog = await Blog.findById(req.params.id)
+      .populate('author', 'name avatar')
+      .populate('category', 'name slug');
 
     if (!blog) {
       return res.status(404).json({

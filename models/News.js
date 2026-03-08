@@ -21,9 +21,12 @@ const newsSchema = new mongoose.Schema(
       type: String,
     },
     category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+    },
+    // Legacy field for backward compatibility during migration
+    categoryLegacy: {
       type: String,
-      enum: ['circular', 'notification', 'news', 'update', 'general'],
-      default: 'general',
     },
     publishDate: {
       type: Date,

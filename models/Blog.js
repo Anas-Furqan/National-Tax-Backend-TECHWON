@@ -37,19 +37,12 @@ const blogSchema = new mongoose.Schema(
       },
     ],
     category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+    },
+    // Legacy field for backward compatibility during migration
+    categoryLegacy: {
       type: String,
-      enum: [
-        'Income Tax',
-        'Sales Tax',
-        'Customs',
-        'GST',
-        'SECP',
-        'Trademark',
-        'WEBOC',
-        'NTN Registration',
-        'General',
-      ],
-      default: 'General',
     },
     isPublished: {
       type: Boolean,

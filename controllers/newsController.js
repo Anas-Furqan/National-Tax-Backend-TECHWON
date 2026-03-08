@@ -50,6 +50,7 @@ exports.getNews = async (req, res, next) => {
     const total = await News.countDocuments(query);
     const news = await News.find(query)
       .populate('author', 'name')
+      .populate('category', 'name slug')
       .sort({ publishDate: -1 })
       .skip(startIndex)
       .limit(limit);
@@ -82,6 +83,7 @@ exports.getAllNews = async (req, res, next) => {
     const total = await News.countDocuments();
     const news = await News.find()
       .populate('author', 'name')
+      .populate('category', 'name slug')
       .sort({ publishDate: -1 })
       .skip(startIndex)
       .limit(limit);
@@ -107,7 +109,9 @@ exports.getAllNews = async (req, res, next) => {
 // @access  Public
 exports.getSingleNews = async (req, res, next) => {
   try {
-    const news = await News.findById(req.params.id).populate('author', 'name');
+    const news = await News.findById(req.params.id)
+      .populate('author', 'name')
+      .populate('category', 'name slug');
 
     if (!news) {
       return res.status(404).json({
