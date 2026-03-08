@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 const {
   createConsultation,
   getConsultations,
@@ -6,11 +7,23 @@ const {
   updateConsultation,
   deleteConsultation,
   getConsultationStats,
-  getFileSignedUrl,
-  fixBlockedFile,
 } = require('../controllers/consultationController');
 const { protect, authorize } = require('../middleware/auth');
-const { uploadNotice } = require('../config/cloudinary');
+
+// Use memory storage for Supabase upload
+const storage = multer.memoryStorage();
+const uploadNotice = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF and image files are allowed'), false);
+    }
+  },
+});
 
 const router = express.Router();
 
@@ -21,8 +34,6 @@ router.post('/', uploadNotice.single('noticeFile'), createConsultation);
 router.get('/', protect, getConsultations);
 router.get('/stats', protect, getConsultationStats);
 router.get('/:id', protect, getConsultation);
-router.get('/:id/file-url', protect, getFileSignedUrl);
-router.post('/:id/fix-file', protect, authorize('admin'), fixBlockedFile);
 router.put('/:id', protect, updateConsultation);
 router.delete('/:id', protect, authorize('admin'), deleteConsultation);
 
