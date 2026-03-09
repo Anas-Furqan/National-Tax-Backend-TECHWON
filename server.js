@@ -50,17 +50,17 @@ app.use(
 })
 );
 
-const corsOptions = {
-  origin: 'https://national-tax-frontend-techwon.vercel.app', // Aapka specific frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
+// const corsOptions = {
+//   origin: 'https://national-tax-frontend-techwon.vercel.app', // Aapka specific frontend URL
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   credentials: true,
+//   optionsSuccessStatus: 200
+// };
 
-app.use(cors(corsOptions));
-// Important: Handle preflight requests
-app.options('*', cors(corsOptions));
+// app.use(cors(corsOptions));
+// // Important: Handle preflight requests
+// app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
